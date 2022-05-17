@@ -1,10 +1,13 @@
 package com.Bridgelabz;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AddressBookAddContactsUC2 {
+    static Map<String, AddressBookAddContactsUC2> addressBookMap = new HashMap<>();
     ArrayList<ContactsUC2> list = new ArrayList<ContactsUC2>();
-    Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in);
 
 
     public void addContacts() {
@@ -105,4 +108,15 @@ public class AddressBookAddContactsUC2 {
             }
         }
     }
-}
+
+    public static void addNewAddressBook() {
+        System.out.println("Enter the Address Book Name :");
+        String addressbookName = sc.next();
+        if (addressBookMap.containsKey(addressbookName)) {
+            System.out.println("Entered AddressBook is Already Available");
+        } else {
+            AddressBookAddContactsUC2 addressBook = new AddressBookAddContactsUC2();
+            addressBookMap.put(addressbookName, addressBook);
+        }
+    }
+    }
