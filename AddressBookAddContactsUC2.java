@@ -3,6 +3,9 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+
 
 public class AddressBookAddContactsUC2 {
     static Map<String, AddressBookAddContactsUC2> addressBookMap = new HashMap<>();
@@ -10,6 +13,85 @@ public class AddressBookAddContactsUC2 {
     public static Scanner sc = new Scanner(System.in);
 
 
+        public boolean equalsFirstName(ContactsUC2 compareContacts) {
+            for (ContactsUC2 contacts : list) {
+                if (compareContacts.equals(contacts)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public static void addNewAddressBook() {
+            System.out.println("Enter the Address Book Name :");
+            String addressbookName = sc.next();
+            if (addressBookMap.containsKey(addressbookName)) {
+                System.out.println("Entered AddressBook is Already Available");
+            } else {
+                AddressBookAddContactsUC2 addressBook = new AddressBookAddContactsUC2();
+                addressBookMap.put(addressbookName, addressBook);
+            }
+
+        }
+
+        // method to search contact by name
+        public List<ContactsUC2> searchByName(String name) {
+            return list.stream().filter(person -> person.getFirstName().equalsIgnoreCase(name))
+                    .collect(Collectors.toList());
+        }
+
+        // by city
+        public List<ContactsUC2> searchByCity(String city) {
+            return list.stream().filter(person -> person.getCity().equalsIgnoreCase(city))
+                    .collect(Collectors.toList());
+        }
+
+        // by state
+        public List<ContactsUC2> searchByState(String state) {
+            return list.stream().filter(person -> person.getState().equalsIgnoreCase(state))
+                    .collect(Collectors.toList());
+        }
+
+
+        public void searchByOptions() {
+            AddressBookAddContactsUC2 addressBook = new AddressBookAddContactsUC2();
+            Scanner sc = new Scanner(System.in);
+            System.out.println("1. By name");
+            System.out.println("2. By city");
+            System.out.println("3. By state");
+            System.out.println("Your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter name: ");
+                    String name = sc.nextLine();
+                    list.forEach(book -> searchByName(name).forEach(System.out::println));
+                    break;
+                case 2:
+                    System.out.println("Enter city: ");
+                    String city = sc.nextLine();
+                    list.forEach(book -> searchByCity(city).forEach(System.out::println));
+                    break;
+                case 3:
+                    System.out.println("Enter state: ");
+                    String state = sc.nextLine();
+                    list.forEach(book -> searchByState(state).forEach(System.out::println));
+                    break;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }
+
+
+        public static void displayAddressBooks() {
+            for (Map.Entry<String, AddressBookAddContactsUC2> entry : addressBookMap.entrySet()) {
+                System.out.println(entry.getKey());
+                entry.getValue().showContacts();
+
+            }
+        }
     public void addContacts() {
 
         ContactsUC2 contacts = new ContactsUC2();
@@ -109,14 +191,6 @@ public class AddressBookAddContactsUC2 {
         }
     }
 
-    public static void addNewAddressBook() {
-        System.out.println("Enter the Address Book Name :");
-        String addressbookName = sc.next();
-        if (addressBookMap.containsKey(addressbookName)) {
-            System.out.println("Entered AddressBook is Already Available");
-        } else {
-            AddressBookAddContactsUC2 addressBook = new AddressBookAddContactsUC2();
-            addressBookMap.put(addressbookName, addressBook);
-        }
+
     }
-    }
+
